@@ -36,7 +36,7 @@ BegClass Program
 
 EndClass
 
-BegClass Temperature Implements(IComparable) 
+BegClass Temperature Implements(IComparable, Logger)
     // The temperature value
     DclFld temperatureF Type(Double) Access(*Protected) 
 
@@ -58,6 +58,10 @@ BegClass Temperature Implements(IComparable)
         EndIf 
     EndFunc 
 
+    BegSr Log Implements(Logger.Log) 
+
+    EndSr 
+
     BegProp Fahrenheit Access(*Public)  Type(Double) 
         BegGet
             LeaveSr *This.temperatureF
@@ -77,3 +81,9 @@ BegClass Temperature Implements(IComparable)
     EndProp 
 EndClass 
 
+BegInterface Logger
+
+    BegSr Log
+    EndSr 
+
+EndInterface
