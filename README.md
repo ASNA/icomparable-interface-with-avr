@@ -48,7 +48,7 @@ If you need to implement a generic interface, we recommend you make a separate C
     otherTemperature = obj *As Temperature 
 
 
-#### Declaring an instancing an object
+#### Declaring and instancing an object
 
 * C# uses an assignment with its `new` keyword to declare and assign a new instance of a class to a variable; AVR uses its `New` keyword to do that. 
 
