@@ -1,0 +1,79 @@
+﻿Using System
+Using System.Collections
+Using System.Text
+
+BegClass Program
+
+    BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread())
+        DclSrParm args Type(*String) Rank(1)
+
+        DclFLd temperatures Type(ArrayList) New()
+
+        // Initialize random number generator.
+        DclFld rnd Type(Random) New() 
+        DclFld ctr Type(*Integer4) 
+        DclFld degrees Type(*Integer4) 
+        DclFld temp Type(Temperature) 
+
+        // Generate 10 temperatures between 0 and 100 randomly.
+        For Index(ctr = 1) To(10)
+            degrees = rnd.Next(0, 100)
+            temp = *New Temperature()
+            temp.Fahrenheit = degrees
+            temperatures.Add(temp)
+        EndFor 
+
+        // Sort ArrayList.
+        temperatures.Sort()
+
+        ForEach temp Collection(temperatures)
+            Console.WriteLine(temp.Fahrenheit)
+        EndFor 
+
+        Console.WriteLine('Press any key to continue...') 
+        Console.ReadKey()
+    EndSr
+
+EndClass
+
+BegClass Temperature Implements(IComparable) 
+    // The temperature value
+    DclFld temperatureF Type(Double) Access(*Protected) 
+
+    BegFunc CompareTo Type(*Integer4) Implements(IComparable.CompareTo)
+        DclSrParm obj Type(System.Object) 
+
+        DclFld otherTemperature Type(Temperature) 
+
+        If obj = *Nothing 
+            LeaveSr 1
+        EndIf
+
+        otherTemperature = obj *As Temperature
+
+        If otherTemperature <> *Nothing
+            LeaveSr *this.temperatureF.CompareTo(otherTemperature.temperatureF)            
+        Else 
+           Throw *New ArgumentException("Object is not a Temperature")
+        EndIf 
+    EndFunc 
+
+    BegProp Fahrenheit Access(*Public)  Type(Double) 
+        BegGet
+            LeaveSr *This.temperatureF
+        EndGet
+        BegSet
+            *This.temperatureF = *PropVal 
+        EndSet
+    EndProp 
+
+    BegProp Celsius Access(*Public)  Type(Double) 
+        BegGet
+            LeaveSr  (*This.temperatureF - 32) * (5.0/9)
+        EndGet
+        BegSet
+            *This.temperatureF = (*PropVal * 9.0/5) + 32
+        EndSet
+    EndProp 
+EndClass 
+
